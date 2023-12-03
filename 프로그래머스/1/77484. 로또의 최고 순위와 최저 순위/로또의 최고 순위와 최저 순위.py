@@ -1,6 +1,6 @@
 def solution(lottos, win_nums):
     answer = []
-    scribbling = len([i for i in lottos if i == 0])
+    scribbling = lottos.count(0)
     match = 0
     
     for i in lottos:
