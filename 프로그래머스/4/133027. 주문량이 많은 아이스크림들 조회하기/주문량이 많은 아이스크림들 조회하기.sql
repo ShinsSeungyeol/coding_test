@@ -1,34 +1,18 @@
--- 코드를 입력하세요
-
 SELECT
-    Z.FLAVOR
+    A.FLAVOR
 FROM
-(
-    SELECT 
-        ROWNUM RNUM
-        , FLAVOR
-    FROM
-    (
-
+    FIRST_HALF A
+    , (
         SELECT
-            A.FLAVOR
+            B.FLAVOR 
+            , SUM(TOTAL_ORDER) TOTAL_ORDER
         FROM
-            FIRST_HALF A
-            , (
-                SELECT
-                    B.FLAVOR 
-                    , SUM(TOTAL_ORDER) TOTAL_ORDER
-                FROM
-                    JULY B
-                GROUP BY 
-                    B.FLAVOR
-            ) C
-        WHERE
-            A.FLAVOR = C.FLAVOR 
-        ORDER BY 
-            A.TOTAL_ORDER + C.TOTAL_ORDER DESC 
-    )
-) Z
+            JULY B
+        GROUP BY 
+            B.FLAVOR
+    ) C
 WHERE
-    Z.RNUM <= 3
-
+    A.FLAVOR = C.FLAVOR 
+ORDER BY 
+    A.TOTAL_ORDER + C.TOTAL_ORDER DESC 
+FETCH FIRST 3 ROW ONLY
